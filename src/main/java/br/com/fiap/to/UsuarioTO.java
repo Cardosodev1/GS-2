@@ -15,14 +15,13 @@ public class UsuarioTO {
     @Size(min = 6, max = 20)
     private String senha;
 
-    @NotNull
     @PositiveOrZero
     private Long pontos;
 
     public UsuarioTO() {
     }
 
-    public UsuarioTO(Long codigo, @NotBlank String nome, @NotBlank String email, @NotBlank @Size(min = 6, max = 20) String senha, @NotNull @PositiveOrZero Long pontos) {
+    public UsuarioTO(Long codigo, @NotBlank String nome, @NotBlank String email, @NotBlank @Size(min = 6, max = 20) String senha, @PositiveOrZero Long pontos) {
         this.codigo = codigo;
         this.nome = nome;
         this.email = email;

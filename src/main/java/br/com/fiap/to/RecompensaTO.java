@@ -2,8 +2,6 @@ package br.com.fiap.to;
 
 import jakarta.validation.constraints.*;
 
-import java.sql.Blob;
-
 public class RecompensaTO {
     private Long codigo;
 
@@ -14,20 +12,16 @@ public class RecompensaTO {
     private String descricao;
 
     @NotNull
-    private Blob imagem;
-
-    @NotNull
     @Positive
     private Long pontosNecessarios;
 
     public RecompensaTO() {
     }
 
-    public RecompensaTO(Long codigo, @NotBlank String nomeEmpresa, @NotBlank String descricao, @NotNull Blob imagem, @NotNull @Positive Long pontosNecessarios) {
+    public RecompensaTO(Long codigo, @NotBlank String nomeEmpresa, @NotBlank String descricao, @NotNull @Positive Long pontosNecessarios) {
         this.codigo = codigo;
         this.nomeEmpresa = nomeEmpresa;
         this.descricao = descricao;
-        this.imagem = imagem;
         this.pontosNecessarios = pontosNecessarios;
     }
 
@@ -53,14 +47,6 @@ public class RecompensaTO {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public Blob getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(Blob imagem) {
-        this.imagem = imagem;
     }
 
     public Long getPontosNecessarios() {

@@ -1,26 +1,25 @@
 package br.com.fiap.dao;
 
-import br.com.fiap.to.RecompensaTO;
+import br.com.fiap.to.PerguntaTO;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class RecompensaDAO extends Repository {
-    public ArrayList<RecompensaTO> findAll() {
-        ArrayList<RecompensaTO> recompensas = new ArrayList<>();
-        String sql = "select * from t_gs_recompensa order by cd_recompensa";
+public class PerguntaDAO extends Repository {
+    public ArrayList<PerguntaTO> findAll() {
+        ArrayList<PerguntaTO> perguntas = new ArrayList<>();
+        String sql = "select * from t_gs_pergunta order by cd_pergunta";
         try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             if (rs != null) {
                 while (rs.next()) {
-                    RecompensaTO recompensa = new RecompensaTO();
-                    recompensa.setCodigo(rs.getLong("cd_recompensa"));
-                    recompensa.setNomeEmpresa(rs.getString("nm_empresa"));
-                    recompensa.setDescricao(rs.getString("ds_recompensa"));
-                    recompensa.setPontosNecessarios(rs.getLong("pontos_necessarios"));
-                    recompensas.add(recompensa);
+                    PerguntaTO pergunta = new PerguntaTO();
+                    pergunta.setCodigo(rs.getLong("cd_pergunta"));
+                    pergunta.setDescricao(rs.getString("ds_pergunta"));
+                    pergunta.setCodigoQuiz(rs.getLong("cd_quiz"));
+                    perguntas.add(pergunta);
                 }
             } else {
                 return null;
@@ -30,20 +29,19 @@ public class RecompensaDAO extends Repository {
         } finally {
             closeConnection();
         }
-        return recompensas;
+        return perguntas;
     }
 
-    public RecompensaTO findByCodigo(Long codigo) {
-        RecompensaTO recompensa = new RecompensaTO();
-        String sql = "select * from t_gs_recompensa where cd_recompensa = ?";
+    public PerguntaTO findByCodigo(Long codigo) {
+        PerguntaTO pergunta = new PerguntaTO();
+        String sql = "select * from t_gs_pergunta where cd_pergunta = ?";
         try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
             ps.setLong(1, codigo);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                recompensa.setCodigo(rs.getLong("cd_recompensa"));
-                recompensa.setNomeEmpresa(rs.getString("nm_empresa"));
-                recompensa.setDescricao(rs.getString("ds_recompensa"));
-                recompensa.setPontosNecessarios(rs.getLong("pontos_necessarios"));
+                pergunta.setCodigo(rs.getLong("cd_pergunta"));
+                pergunta.setDescricao(rs.getString("ds_pergunta"));
+                pergunta.setCodigoQuiz(rs.getLong("cd_quiz"));
             } else {
                 return null;
             }
@@ -53,17 +51,16 @@ public class RecompensaDAO extends Repository {
         } finally {
             closeConnection();
         }
-        return recompensa;
+        return pergunta;
     }
 
-    public RecompensaTO save(RecompensaTO recompensa) {
-        String sql = "insert into t_gs_recompensa (nm_empresa, ds_recompensa, pontos_necessarios) values(?, ?, ?)";
+    public PerguntaTO save(PerguntaTO pergunta) {
+        String sql = "insert into t_gs_pergunta (ds_pergunta, cd_quiz) values(?, ?)";
         try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
-            ps.setString(1, recompensa.getNomeEmpresa());
-            ps.setString(2, recompensa.getDescricao());
-            ps.setLong(3, recompensa.getPontosNecessarios());
+            ps.setString(1, pergunta.getDescricao());
+            ps.setLong(2, pergunta.getCodigoQuiz());
             if (ps.executeUpdate() > 0) {
-                return recompensa;
+                return pergunta;
             } else {
                 return null;
             }
@@ -76,7 +73,7 @@ public class RecompensaDAO extends Repository {
     }
 
     public boolean delete(Long codigo) {
-        String sql = "delete from t_gs_recompensa where cd_recompensa = ?";
+        String sql = "delete from t_gs_pergunta where cd_pergunta = ?";
         try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
             ps.setLong(1, codigo);
             return ps.executeUpdate() > 0;
@@ -88,15 +85,14 @@ public class RecompensaDAO extends Repository {
         return false;
     }
 
-    public RecompensaTO update(RecompensaTO recompensa) {
-        String sql = "update t_gs_recompensa set nm_empresa=?, ds_recompensa=?, pontos_necessarios=? where cd_recompensa=?";
+    public PerguntaTO update(PerguntaTO pergunta) {
+        String sql = "update t_gs_pergunta set ds_pergunta=?, cd_quiz=? where cd_pergunta=?";
         try(PreparedStatement ps = getConnection().prepareStatement(sql)) {
-            ps.setString(1, recompensa.getNomeEmpresa());
-            ps.setString(2, recompensa.getDescricao());
-            ps.setLong(3, recompensa.getPontosNecessarios());
-            ps.setLong(4, recompensa.getCodigo());
+            ps.setString(1, pergunta.getDescricao());
+            ps.setLong(2, pergunta.getCodigoQuiz());
+            ps.setLong(3, pergunta.getCodigo());
             if (ps.executeUpdate() > 0) {
-                return recompensa;
+                return pergunta;
             } else {
                 return null;
             }

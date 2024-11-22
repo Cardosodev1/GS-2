@@ -59,12 +59,11 @@ public class UsuarioDAO extends Repository {
     }
 
     public UsuarioTO save(UsuarioTO usuario) {
-        String sql = "insert into t_gs_usuario (nm_usuario, email, senha, pontos) values(?, ?, ?, ?)";
+        String sql = "insert into t_gs_usuario (nm_usuario, email, senha) values(?, ?, ?)";
         try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
             ps.setString(1, usuario.getNome());
             ps.setString(2, usuario.getEmail());
             ps.setString(3, usuario.getSenha());
-            ps.setLong(4, usuario.getPontos());
             if (ps.executeUpdate() > 0) {
                 return usuario;
             } else {
