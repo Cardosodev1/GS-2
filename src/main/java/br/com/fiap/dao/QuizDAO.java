@@ -18,7 +18,7 @@ public class QuizDAO extends Repository {
                 while (rs.next()) {
                     QuizTO quiz = new QuizTO();
                     quiz.setCodigo(rs.getLong("cd_quiz"));
-                    quiz.setDataDisponivel(rs.getDate("dt_resgate").toLocalDate());
+                    quiz.setDataDisponivel(rs.getDate("dt_disponivel").toLocalDate());
                     quiz.setCodigoArtigo(rs.getLong("cd_artigo"));
                     quizes.add(quiz);
                 }
@@ -41,7 +41,7 @@ public class QuizDAO extends Repository {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 quiz.setCodigo(rs.getLong("cd_quiz"));
-                quiz.setDataDisponivel(rs.getDate("dt_resgate").toLocalDate());
+                quiz.setDataDisponivel(rs.getDate("dt_disponivel").toLocalDate());
                 quiz.setCodigoArtigo(rs.getLong("cd_artigo"));
             } else {
                 return null;
